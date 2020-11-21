@@ -22,8 +22,11 @@ jobs:
       - name: Install rmarkdown
         run: Rscript -e 'install.packages(c("rmarkdown","bookdown"))'
 
+      - name: Install kabelExtra, ggplot2, dplyr
+        run: Rscript -e 'install.packages(c("kableExtra","ggplot2","dplyr"))'
+
       - name: Install book package dependencies
-        run: Rscript -e 'install.packages(c("abind","pBrackets","grid","kableExtra","RJafroc","here","gridExtra","ggplot2","dplyr"))'
+        run: Rscript -e 'install.packages(c("abind","pBrackets","grid","RJafroc","here","gridExtra"))'
 
       - name: Build HTML
         run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
