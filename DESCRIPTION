@@ -11,5 +11,6 @@ Imports:
     RJafroc,
     here,
     gridExtra,
+    ggplot2,
     dplyr
 Remotes: rstudio/bookdown
