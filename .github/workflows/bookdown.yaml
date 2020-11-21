@@ -23,10 +23,13 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
 
       - name: Install kabelExtra, ggplot2, dplyr
-        run: Rscript -e 'install.packages(c("kableExtra","ggplot2","dplyr"))'
+        run: Rscript -e 'install.packages(c("kableExtra","ggplot2","dplyr","devtools"))'
 
       - name: Install book package dependencies
         run: Rscript -e 'install.packages(c("abind","pBrackets","grid","RJafroc","here","gridExtra"))'
+
+      - name: Install dpc10ster/RJafroc from github
+        run: Rscript -e 'devtools::install_github("dpc10ster/RJafroc")'
 
       - name: Install rmarkdown
         run: Rscript -e 'install.packages(c("rmarkdown","bookdown"))'
