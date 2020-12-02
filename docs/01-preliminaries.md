@@ -6,7 +6,7 @@
 
 
 ## Introduction {#preliminariesIntro}
-The question addressed by this book is "how good are radiologists using medical imaging devices at diagnosing disease?" Observer performance measurements, widely used for this purpose, require data collection and analyses methods that fall under the rubric of what is loosely termed "ROC analysis", where ROC is an abbreviation for Receiver Operating Characteristic [@RN1766]. ROC analysis and its extensions form a specialized branch of science encompassing knowledge of diagnostic medical physics, perception of stimuli  (commonly studied by psychologists), human observer modeling and statistics. Its importance in medical imaging is due to the evolution of technology and the need to objectively assess advances. The Food and Drug Administration, Center for Devices and Radiological Health (FDA/CDRH), which regulates medical-imaging devices, requires ROC studies as part of its device approval process . There are, conservatively, at least several hundred publications using ROC studies and a paper [@RN1766] by the late Prof. C.E. Metz has been cited over 1800 times. Numerous reviews and tutorial papers have appeared [@RN1766, @RN113, @RN1908, @RN1973] and there are books on the statistical analysis [@RN1443] of ROC data. However, in spite of the numbers of publications and books in this field, and in my experience, basic aspects of it are sometimes misunderstood, and lessons from the past have been sometimes forgotten, and these have seriously held back health care advances – as will be demonstrated in this book.
+The question addressed by this book is "how good are radiologists using medical imaging devices at diagnosing disease?" Observer performance measurements, widely used for this purpose, require data collection and analyses methods that fall under the rubric of what is loosely termed "ROC analysis", where ROC is an abbreviation for Receiver Operating Characteristic [@metz1978rocmethodology]. ROC analysis and its extensions form a specialized branch of science encompassing knowledge of diagnostic medical physics, perception of stimuli  (commonly studied by psychologists), human observer modeling and statistics. Its importance in medical imaging is due to the evolution of technology and the need to objectively assess advances. The Food and Drug Administration, Center for Devices and Radiological Health (FDA/CDRH), which regulates medical-imaging devices, requires ROC studies as part of its device approval process . There are, conservatively, at least several hundred publications using ROC studies and a paper [@metz1978rocmethodology] by the late Prof. C.E. Metz has been cited over 1800 times. Numerous reviews and tutorial papers have appeared [@metz1978rocmethodology, @RN113, @RN1908, @metz1986rocmethodology] and there are books on the statistical analysis [@RN1443] of ROC data. However, in spite of the numbers of publications and books in this field, and in my experience, basic aspects of it are sometimes misunderstood, and lessons from the past have been sometimes forgotten, and these have seriously held back health care advances – as will be demonstrated in this book.
 
 It is the aim of this book to describe the field in some depth while assuming little statistical background of the reader. That is a tall order. Key to accomplishing this aim is the ability to illustrate abstract statistical concepts and analysis methods with free, cross-platform, open-source software `R`, a programming language, and `RStudio`, "helper" software that makes it much easier to work with `R`, is very popular in the scientific community. 
 
@@ -50,10 +50,9 @@ Once the imaging device is sold to a radiology department, both routine quality 
 
 A good example of QC is the use of the American College of Radiology Mammography Quality Standards Act (ACR-MQSA) phantom to monitor image quality of mammography machines[27-29]. The phantom consists of a (removable) wax insert in an acrylic holder; the latter provides additional absorption and scattering material to more closely match the attenuation and beam hardening  of an average breast. Embedded in the wax insert are target objects consisting of 6 fibrils, five groups of microcalcifications, each containing six specks, and five spherical objects of different sizes, called masses. An image of the phantom, Fig. \@ref(fig:acrPhantomClinical) (A) is obtained daily, before the first patient is imaged, and is inspected by a technologist, who records the number of target objects of different types that are visible. There is a pass-fail criterion and if the image fails then patients cannot be imaged on that machine until the problem is corrected. At this point, the medical physicist is called in to investigate. 
 
-<div class="figure">
-<img src="images/AcrPhantom.png" alt="(A) Image of an ACR phantom, (B) Clinical image." width="50%" /><img src="images/Clinical.png" alt="(A) Image of an ACR phantom, (B) Clinical image." width="50%" />
-<p class="caption">(\#fig:acrPhantomClinical)(A) Image of an ACR phantom, (B) Clinical image.</p>
-</div>
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{images/AcrPhantom} \includegraphics[width=0.5\linewidth]{images/Clinical} \caption{(A) Image of an ACR phantom, (B) Clinical image.}(\#fig:acrPhantomClinical)
+\end{figure}
 
 
 Fig. \@ref(fig:acrPhantomClinical) (A – B): (A) Image of an American College of Radiology mammography accreditation phantom. The phantom contains target objects consisting of six fibrils, five groups of microcalcifications, and five nodule-like objects. An image of the phantom is obtained daily, before the first patient is imaged, and is inspected by a technologist, who records the number of target objects of different types that are visible. On his 27" iMac monitor, the author sees four fibrils, three speck groups and four masses, which would be graded as a "pass". This is greatly simplified version of the test. The scoring accounts for irregular fibril or partially visible masses borders, etc., all of which is intended to get more objectivity out of the measurement. (B) A breast image showing an invasive cancer, located roughly in the middle of the image. Note the lack of similarity between the two images (A) and (B). The breast image is much more complex and there is more information, and therefore more to go wrong than with the phantom image. Moreover, there is variability between patients in contrast to the fixed image in (A). In the author's clinical experience, the phantom images interpreted visually are a poor predictor of clinical image quality.
@@ -113,41 +112,28 @@ Table \@ref(tab:FrybackThornbury): Fryback and Thornbury proposed hierarchy of a
 
 
 
-<table>
-<caption>(\#tab:FrybackThornbury)FrybackThornbury hierarchy of efficacies.</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Level Designation </th>
-   <th style="text-align:left;"> Essential Characteristic </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> 1. Technical efficacy </td>
-   <td style="text-align:left;"> Engineering measures: MTF, NPS, DQE </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2. Diagnostic accuracy efficacy </td>
-   <td style="text-align:left;"> Sensitivity, specificity, ROC or FROC area </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 3. Diagnostic thinking efficacy </td>
-   <td style="text-align:left;"> Positive and negative predictive values </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 4. Therapeutic efficacy </td>
-   <td style="text-align:left;"> Treatment benefits from imaging test? </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 5. Patient outcome efficacy </td>
-   <td style="text-align:left;"> Patients benefit from imaging test? </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 6. Societal efficacy </td>
-   <td style="text-align:left;"> Society benefits from imaging test? </td>
-  </tr>
-</tbody>
-</table>
+\begin{table}
+
+\caption{(\#tab:FrybackThornbury)FrybackThornbury hierarchy of efficacies.}
+\centering
+\begin{tabular}[t]{l|l}
+\hline
+Level Designation & Essential Characteristic\\
+\hline
+1. Technical efficacy & Engineering measures: MTF, NPS, DQE\\
+\hline
+2. Diagnostic accuracy efficacy & Sensitivity, specificity, ROC or FROC area\\
+\hline
+3. Diagnostic thinking efficacy & Positive and negative predictive values\\
+\hline
+4. Therapeutic efficacy & Treatment benefits from imaging test?\\
+\hline
+5. Patient outcome efficacy & Patients benefit from imaging test?\\
+\hline
+6. Societal efficacy & Society benefits from imaging test?\\
+\hline
+\end{tabular}
+\end{table}
 
 
 The term "clinical relevance" is used rather loosely in the literature. The author is not aware of an accepted definition of "clinical relevance" apart from its obvious English language meaning. As a working definition the author has proposed [63] that the clinical relevance of a measurement be defined as its hierarchy-level. A level-5 patient outcome measurement (do patients, on the average, benefit from the imaging study) is clinically more relevant than a technical measurement like noise on a uniform background phantom or an ROC study. This is because it relates directly to the benefit, or lack thereof, to a group of patients (it is impossible to define outcome efficacy at the individual patient level – at the patient level outcome is a binary random variable, e.g., 1 if the outcome was good or 0 if the outcome was bad). 
