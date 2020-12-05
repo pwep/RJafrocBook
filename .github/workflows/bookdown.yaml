@@ -32,7 +32,7 @@ jobs:
         run: Rscript -e 'install.packages(c("kableExtra","ggplot2","dplyr","devtools"))'
 
       - name: Install book package dependencies
-        run: Rscript -e 'install.packages(c("abind","pBrackets","grid","RJafroc","here","gridExtra"))'
+        run: Rscript -e 'install.packages(c("abind","pBrackets","grid","RJafroc","here","gridExtra","seqinr"))'
 
       - name: Install dpc10ster/RJafroc from github
         run: Rscript -e 'devtools::install_github("dpc10ster/RJafroc")'
