@@ -41,7 +41,7 @@ mu_arr <- c(1, 1.5, 2, 2.5)
 maxFomArr <- array(dim = c(2,length(mu_arr)))
 zetaMaxArr <- array(dim = c(2, length(mu_arr)))
 plotArr <- array(list(), dim = c(2, length(mu_arr)))
-lesDistr <- Convert2lesDistr(c(0.5, 0.5))
+lesDistr <- c(0.5, 0.5)
 relWeights <- c(0.5, 0.5)
 for (i in 1:length(mu_arr)) {
   if (i == 1) zeta1Arr <- seq(1.5,3.5,0.05) else zeta1Arr <- seq(0.5,2.5,0.1)
@@ -158,7 +158,7 @@ All of these observations make intuitive sense except, perhaps, that for NLF01. 
 
 
 
-![(\#fig:optim-op-point-froc-2plots)wAFROC plots for $\mu = 1$, $\lambda = 10$ and $\nu = 1$: the left panel corresponds to $\zeta_1 = 3.25$, the right to $\zeta_1 = 1.5$. By reporting very few marks algorithm performance in the left plot is much improved over that in the right.](21-optim-op-point_files/figure-latex/optim-op-point-froc-2plots-1.pdf) 
+![(\#fig:optim-op-point-froc-2plots) With a poor algorithm it pays to not show too many marks. Shown are wAFROC plots for $\mu = 1$, $\lambda = 10$ and $\nu = 1$. The upper curve corresponds to $\zeta_1 = 3.25$, the lower to $\zeta_1 = 1.5$. By reporting fewer marks algorithm performance in the upper plot is visibly improved over that in the lower.](21-optim-op-point_files/figure-latex/optim-op-point-froc-2plots-1.pdf) 
 
 
 * For higher values of $\mu$ shown in Fig. \@ref(fig:optim-op-point-froc-froc-10-first-two-plots) and Fig. \@ref(fig:optim-op-point-froc-froc-10-next-two-plots) -- e.g., panels labeled **10-1.5, 10-2 and 10-2.5** -- AUC performance progressively increases. It now makes sense for the algorithm designer to show marks with lower confidence levels, corresponding to moving up the FROC curve. While it is true that one is also showing more NLs, the increase in the number of LLs compensates -- upto a point -- showing marks beyond the optimal point would result in decreased performance, see for example the plots in Fig. \@ref(fig:optim-op-point-froc-AUC-vs-zeta1-10).
