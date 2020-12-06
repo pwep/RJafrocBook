@@ -18,7 +18,7 @@ jobs:
       - name: Install Rjafroc
         run: Rscript -e 'remotes::install_github("dpc10ster/RJafroc")'
       - name: Render PDF Book
-        run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')
+        run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
       - uses: actions/upload-artifact@v1
         with:
           name: pdf
