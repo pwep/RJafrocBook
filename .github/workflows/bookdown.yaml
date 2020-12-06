@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: gh-pages
-          path: book_output
+          path: book-output
       - name: Upload artifact
         run: |
           git config --local user.email "actions@github.com"
