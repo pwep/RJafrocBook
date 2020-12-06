@@ -3,11 +3,11 @@ on:
 
 
 
-name: renderbook
+name: render-ebook
 
 jobs:
   bookdown:
-    name: Render-Book
+    name: Render-eBook
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1

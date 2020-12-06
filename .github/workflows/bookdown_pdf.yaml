@@ -3,25 +3,26 @@ on:
 
 
 
-name: render-html-book
+name: render-pdf-book
 
 jobs:
   bookdown:
-    name: Render HTML Book
+    name: Render-PDF-Book
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
+      - uses: r-lib/actions/setup-tinytex@v1
       - name: Install rmarkdown
         run: Rscript -e 'install.packages(c("rmarkdown","bookdown","here","remotes","ggplot2","kableExtra","abind","dplyr","grid","gridExtra","pBrackets","seqinr"))'
       - name: Install Rjafroc
         run: Rscript -e 'remotes::install_github("dpc10ster/RJafroc")'
-      - name: Render Web Book
-        run: Rscript -e 'bookdown::render_book("index.Rmd")'
+      - name: Render PDF Book
+        run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
       - uses: actions/upload-artifact@v1
         with:
-          name: docs
+          name: pdf
           path: docs/
 
   checkout-and-deploy:
@@ -34,7 +35,7 @@ jobs:
         uses: actions/download-artifact@v1.0.0
         with:
           # Artifact name
-          name: docs # optional
+          name: pdf # optional
           # Destination path
           path: docs # optional
       - name: Deploy to GitHub Pages
@@ -49,8 +50,7 @@ jobs:
           # git clone -b gh-pages book-output
           cd book-output
           cp -r ../docs/* ./
-          rm *.pdf *.epub *.tex
-          git add --ignore-removal *
-          git commit -m "Update the web book" || true
+          git add RJafrocBook.*
+          git commit -m "Update the PDF book" || true
           git push -q origin gh-pages
         
