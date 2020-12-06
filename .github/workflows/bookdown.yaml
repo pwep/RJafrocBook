@@ -42,8 +42,17 @@ jobs:
          # Destination path
          path: docs # optional
      - name: Deploy to GitHub Pages
-       uses: Cecilapp/GitHub-Pages-deploy@master
-       env:
-          EMAIL: ${{ secrets.EMAIL }}               # must be a verified email
-          GH_TOKEN: ${{ secrets.GH_PAT }} # https://github.com/settings/tokens
-          BUILD_DIR: docs/                     # "_site/" by default
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: book_output
+       run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          # git clone -b gh-pages book-output
+          cd book-output
+          cp -r ../docs/* ./
+          git add --all *
+          git commit -m "Update the book" || true
+          git push -q origin gh-pages
+          
