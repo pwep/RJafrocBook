@@ -24,6 +24,8 @@ jobs:
         with:
           name: pdf
           path: docs/
+      - name: Render eBook
+        run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::epub_book')"
       - name: Render Web Book
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
       - uses: actions/upload-artifact@v1
