@@ -44,7 +44,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::update_packages(dependencies = TRUE)
+          remotes::update_packages(c("rmarkdown","bookdown","here","remotes","ggplot2","kableExtra","abind","dplyr","grid","gridExtra","pBrackets","seqinr"), dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install dpc10ster/RJafroc from github
