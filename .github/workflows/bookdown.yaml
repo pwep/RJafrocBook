@@ -44,7 +44,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_cran(dependencies = TRUE)
+          remotes::install_cran(remotes::local_package_deps(pkgdir = ".", dependencies = NA))
         shell: Rscript {0}
 
       - name: Install dpc10ster/RJafroc from github
