@@ -48,7 +48,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Install dpc10ster/RJafroc from github
-        run: Rscript -e 'devtools::install_github("dpc10ster/RJafroc")'
+        run: Rscript -e 'remotes::install_github("dpc10ster/RJafroc")'
 
       - name: Build HTML
         run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
