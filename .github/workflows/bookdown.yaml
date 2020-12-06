@@ -44,8 +44,8 @@ jobs:
           path: book-output
       - name: Upload artifact
         run: |
-          git config --local user.email "peter.phillips@cumbria.ac.uk"
-          git config --local user.name "Dr. Peter Phillips"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           # git clone -b gh-pages book-output
           cd book-output
           cp -r ../docs/* ./
