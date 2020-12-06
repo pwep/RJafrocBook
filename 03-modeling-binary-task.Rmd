@@ -219,7 +219,7 @@ shadeData <- data.frame(z = cord.x, pdfs = cord.y)
 shadedTails <- shadedTails + 
   geom_polygon(
     data = shadeData, color = "grey", fill = "grey") + 
-  xlab(label = "z") 
+  xlab(label = "Z") 
 shadedTails <- shadedTails + 
   geom_line(data = curveData, color = "black")
 print(shadedTails)
