@@ -28,17 +28,28 @@ jobs:
       - name: Set up TinyTex
         run: tlmgr --version
 
-      - name: Install kabelExtra, ggplot2, dplyr
-        run: Rscript -e 'install.packages(c("kableExtra","ggplot2","dplyr","devtools"))'
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
 
-      - name: Install book package dependencies
-        run: Rscript -e 'install.packages(c("abind","pBrackets","grid","RJafroc","here","gridExtra","seqinr"))'
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          install.packages("pkgdown", type = "binary")
+        shell: Rscript {0}
 
       - name: Install dpc10ster/RJafroc from github
         run: Rscript -e 'devtools::install_github("dpc10ster/RJafroc")'
-
-      - name: Install rmarkdown
-        run: Rscript -e 'install.packages(c("rmarkdown","bookdown"))'
 
       - name: Build HTML
         run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
@@ -48,3 +59,6 @@ jobs:
 
       - name: Build eBook
         run: Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::epub_book')"
+
+      - name: List output
+        run: ls
