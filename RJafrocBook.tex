@@ -109,15 +109,6 @@
 \setcounter{secnumdepth}{5}
 \usepackage{booktabs}
 \usepackage{amsthm}
-\usepackage{caption}[justification=raggedright,labelfont=bf,singlelinecheck=false]
-\usepackage{float}
-\let\origfigure\figure
-\let\endorigfigure\endfigure
-\renewenvironment{figure}[1][2] {
-    \expandafter\origfigure\expandafter[H]
-} {
-    \endorigfigure
-}
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
@@ -143,7 +134,7 @@
 
 \title{The RJafroc Book}
 \author{Dev P. Chakraborty, PhD}
-\date{2020-12-06}
+\date{2020-12-07}
 
 \begin{document}
 \maketitle
@@ -1145,7 +1136,7 @@ Eqn. \eqref{eq:binary-task-Phi-Inv-alpha-by2} means that the (rounded) value -1.
 \NormalTok{shadedTails <-}\StringTok{ }\NormalTok{shadedTails }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom_polygon}\NormalTok{(}
     \DataTypeTok{data =}\NormalTok{ shadeData, }\DataTypeTok{color =} \StringTok{"grey"}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"grey"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\DataTypeTok{label =} \StringTok{"Z"}\NormalTok{) }
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\DataTypeTok{label =} \StringTok{"z"}\NormalTok{) }
 \NormalTok{shadedTails <-}\StringTok{ }\NormalTok{shadedTails }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ curveData, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{)}
 \KeywordTok{print}\NormalTok{(shadedTails)}
@@ -6394,7 +6385,7 @@ Shown below are results obtained using \texttt{RJafroc} function \texttt{StSigni
            \StringTok{"ORBoot:ddf"}\NormalTok{ =}\StringTok{ }\NormalTok{ret4}\OperatorTok{$}\NormalTok{FRRC}\OperatorTok{$}\NormalTok{FTests[}\StringTok{"Treatment"}\NormalTok{, }\StringTok{"DF"}\NormalTok{], }
            \StringTok{"ORBoot:P-val"}\NormalTok{ =}\StringTok{ }\NormalTok{ret4}\OperatorTok{$}\NormalTok{FRRC}\OperatorTok{$}\NormalTok{FTests[}\StringTok{"Treatment"}\NormalTok{, }\StringTok{"p"}\NormalTok{])}
 \CommentTok{#>   ORBoot.Chisq ORBoot.ddf ORBoot.P.val}
-\CommentTok{#> 1    1.2846287          1   0.25704018}
+\CommentTok{#> 1    1.3234552          1    0.2499729}
 \end{Highlighting}
 \end{Shaded}
 
